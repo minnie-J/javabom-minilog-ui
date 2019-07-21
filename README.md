@@ -1,3 +1,3 @@
-# React Starter Template
+# javabom-minilog-ui
 
-> Starter template for react project
+> MINILOG UI :D
