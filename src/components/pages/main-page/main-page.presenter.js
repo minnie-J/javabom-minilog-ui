@@ -23,13 +23,23 @@ const HeaderArea = styled.div`
   justity-content: center;
 `;
 
+const ContentArea = styled.div`
+  width: 100%;
+  height: 100;
+
+  display: flex;
+  flex-direction: column;
+
+  justity-content: center;
+`;
+
 const CategoryArea = styled.div`
   width: 100%;
   // height: 100%; 
   // max-height: 20vmin;
 
-  margin-top: 6vmin;
-  min-height: 4vmin;
+  // margin-top: 6vmin;
+  // min-height: 4vmin;
 
   display: flex;
   justity-content: center;
@@ -47,8 +57,10 @@ const MainPage = () => {
   return (
     <Container>
       <HeaderArea>MainHeader</HeaderArea>
-      <CategoryArea>CategoryList</CategoryArea>
-      <ArticlesArea>ArticleArea</ArticlesArea>
+      <ContentArea>
+        <CategoryArea>CategoryList</CategoryArea>
+        <ArticlesArea>ArticleArea</ArticlesArea>
+      </ContentArea>
     </Container>
   );
 };
