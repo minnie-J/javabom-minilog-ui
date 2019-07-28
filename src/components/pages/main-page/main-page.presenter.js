@@ -14,7 +14,7 @@ const Container = styled.div`
 const HeaderArea = styled.nav`
   width: 100%;
   /* height: 8vmin; */
-  height: 400px;
+  height: 120px;
   
   display: flex;
   /* flex-direction: column; */
@@ -39,7 +39,6 @@ const MainPage = () => {
       <section>
       <HeaderArea>
         <MainHeader/>
-        {/* <CategoryArea>CategoryList</CategoryArea> */}
       </HeaderArea>
       <ContentArea role="main">
         <ArticlesArea>

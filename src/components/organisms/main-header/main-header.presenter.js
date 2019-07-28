@@ -55,11 +55,6 @@ const CategoryWrapper = styled.div`
 
 const CategoryArea = styled.div`
   width: 100%;
-  /* height: 100%; 
-  max-height: 20vmin;
-
-  margin-top: 6vmin;
-  min-height: 4vmin; */
 
   display: flex;
 
@@ -67,20 +62,26 @@ const CategoryArea = styled.div`
   max-width: 1010px;
   /* min-width: 100vmin; */
 
-  padding: 26px 20px;
+  padding: 10px 20px;
+
+  align-items: center;
 `;
 
 const MainHeader = () => {
   return (
     <Container>
       <HeaderWrapper>
-      <HeaderArea>
-        <Logo>M I N I L O G</Logo>
-        <Icon type="smile" />
-      </HeaderArea>
+        <HeaderArea>
+          <Logo>M I N I L O G</Logo>
+          <Icon type="smile" />
+        </HeaderArea>
       </HeaderWrapper>
       <CategoryWrapper>
-      <CategoryArea>CategoryArea</CategoryArea>
+        <CategoryArea>
+          <span style={{fontSize: "12px", fontWeight: "300", color: "#333", letterSpacing: '1px'}}>
+            Category
+          </span>
+        </CategoryArea>
       </CategoryWrapper>
     </Container>
   );
