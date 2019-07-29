@@ -14,7 +14,7 @@ const Container = styled.div`
 const HeaderArea = styled.nav`
   width: 100%;
   /* height: 8vmin; */
-  height: 120px;
+  height: 220px;
   
   display: flex;
   /* flex-direction: column; */
