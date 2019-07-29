@@ -1,0 +1,8 @@
+
+.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
+  padding: 12px 0 !important;
+}
+
+.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header .ant-collapse-arrow {
+  right: 2px !important;
+}

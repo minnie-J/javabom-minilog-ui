@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from "styled-components"
-import { Icon } from 'antd';
+import { Icon, Collapse } from 'antd';
+import "./mod-antd.css";
+
+const { Panel } = Collapse;
 
 const Container = styled.div`
   display: flex;
@@ -62,12 +65,17 @@ const CategoryArea = styled.div`
   max-width: 1010px;
   /* min-width: 100vmin; */
 
-  padding: 10px 20px;
+  padding: 0 20px;
 
   align-items: center;
 `;
 
 const MainHeader = () => {
+  
+  const category = (<span style={{fontSize: "12px", fontWeight: "400", color: "#666", letterSpacing: '1px'}}>
+  Category
+</span>)
+
   return (
     <Container>
       <HeaderWrapper>
@@ -78,9 +86,26 @@ const MainHeader = () => {
       </HeaderWrapper>
       <CategoryWrapper>
         <CategoryArea>
-          <span style={{fontSize: "12px", fontWeight: "300", color: "#333", letterSpacing: '1px'}}>
+          <Collapse bordered={false} expandIconPosition="right" style={{width: "100%"}}>
+            <Panel header={category} style={{border: 0}}>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+              <span style={{margin: "0 20px"}}>test</span>
+            </Panel>
+          </Collapse>
+          {/* <span style={{fontSize: "12px", fontWeight: "400", color: "#333", letterSpacing: '1px'}}>
             Category
-          </span>
+          </span> */}
         </CategoryArea>
       </CategoryWrapper>
     </Container>
