@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components"
 import { Icon, Collapse } from 'antd';
 import "./mod-antd.css";
@@ -21,8 +21,9 @@ const HeaderWrapper = styled.div`
   width: 100%;
 
   background: #fff;
-  border-bottom: 1px solid #f2f2f2;
-`;
+  border-bottom: ${props => props.scroll < 20 && '1px solid #f2f2f2'};
+
+  `;
 
 const HeaderArea = styled.div`
   display: flex;
@@ -33,8 +34,11 @@ const HeaderArea = styled.div`
   width: 1010px;
   max-width: 1010px;
   /* min-width: 100vmin; */
+  
+  transition: padding .2s ease-in-out;
 
-  padding: 26px 20px;
+  /* padding: 26px 20px; */
+  padding: ${props => props.scroll < 20 ? '26px 20px' : '10px 20px' };
 `;
 
 const Logo = styled.div`
@@ -71,15 +75,31 @@ const CategoryArea = styled.div`
 `;
 
 const MainHeader = () => {
+
+  const [scrollTop, changeScrollTop] = useState(0);
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+  }, []);
+
+  const onScroll = () => {
+    const scrollTop = ('scroll', document.documentElement.scrollTop);
+    changeScrollTop(scrollTop);
+  }
   
-  const category = (<span style={{fontSize: "12px", fontWeight: "400", color: "#666", letterSpacing: '1px'}}>
-  Category
-</span>)
+  const category = (
+    <span style={{
+      fontSize: "12px", 
+      fontWeight: "400", 
+      color: "#666", 
+      letterSpacing: '1px'}}>
+        Category
+    </span>)
 
   return (
     <Container>
-      <HeaderWrapper>
-        <HeaderArea>
+      <HeaderWrapper scroll={scrollTop}>
+        <HeaderArea scroll={scrollTop}>
           <Logo>M I N I L O G</Logo>
           <Icon type="smile" />
         </HeaderArea>
