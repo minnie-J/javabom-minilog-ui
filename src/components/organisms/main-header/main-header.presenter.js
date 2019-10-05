@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Icon, Collapse, Tag, Popover } from "antd";
-import "./mod-antd.css";
 
 const { Panel } = Collapse;
 const { CheckableTag } = Tag;
@@ -75,8 +74,8 @@ const CategoryArea = styled.div`
 
 const SubTest = styled.div`
   display: ${props => (props.selected ? "block" : "none")};
-  // height 서브 카테고리 있을 때만 높이 50px로 조정
-  height: 50px;
+  // height 서브 카테고리 있을 때만 높이 46px로 조정
+  height: 46px;
 `;
 
 const tempCat = [

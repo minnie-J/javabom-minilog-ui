@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
+
+import "./assets/css/collapse.css";
+import "./assets/css/popover.css";
+import "./assets/css/tag.css";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
