@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Icon, Collapse, Tag } from "antd";
+import { Icon, Collapse, Tag, Popover } from "antd";
 import "./mod-antd.css";
 
 const { Panel } = Collapse;
@@ -73,6 +73,12 @@ const CategoryArea = styled.div`
   align-items: center;
 `;
 
+const SubTest = styled.div`
+  display: ${props => (props.selected ? "block" : "none")};
+  // height 서브 카테고리 있을 때만 높이 50px로 조정
+  height: 50px;
+`;
+
 const tempCat = [
   "ALL",
   "영화",
@@ -96,6 +102,47 @@ const tempCat = [
   "많아지지는",
   "않겠다"
 ];
+
+const tagForPopover = (
+  <div>
+    <CheckableTag
+      checked={true}
+      style={{
+        margin: "0 4px",
+        width: "max-content",
+      }}
+    >
+      ALL
+    </CheckableTag>
+    <CheckableTag
+      checked={false}
+      style={{
+        margin: "0 4px",
+        width: "max-content"
+      }}
+    >
+      Spring
+    </CheckableTag>
+    <CheckableTag
+      checked={false}
+      style={{
+        margin: "0 4px",
+        width: "max-content"
+      }}
+    >
+      React
+    </CheckableTag>
+    <CheckableTag
+      checked={false}
+      style={{
+        margin: "0 4px",
+        width: "max-content"
+      }}
+    >
+      Etc
+    </CheckableTag>
+  </div>
+);
 
 const MainHeader = () => {
   const [scrollTop, changeScrollTop] = useState(0);
@@ -131,10 +178,9 @@ const MainHeader = () => {
             fontSize: "12px",
             color: "#71bdb9",
             display: "inline-block",
-            // transitionProperty: "all",
-            // transitionDuration: "5s",
-            // transitionTimingFunction: "ease-in-out"
-            transition: "all .2s"
+            // collapse 접었을 때 적용돼야 되는데 transition 지금 안먹음.. span에 styled-component 걸고
+            // activePanel, selectedCategory를 props로 전달해야 적용될듯.
+            transition: "all .2s ease"
           }}
         >
           {selectedCategory}
@@ -166,18 +212,46 @@ const MainHeader = () => {
             }}
           >
             <Panel header={category} style={{ border: 0 }} key="category">
-              {tempCat.map(tag => {
-                return (
-                  <CheckableTag
-                    key={tag}
-                    checked={tag === selectedCategory && true}
-                    onChange={checked => changeSelectCategory(tag)}
-                    style={{ margin: "4px 12px 6px 0" }}
-                  >
-                    {tag}
-                  </CheckableTag>
-                );
-              })}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap"
+                }}
+              >
+                {tempCat.map(tag => {
+                  return (
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <CheckableTag
+                        key={tag}
+                        checked={tag === selectedCategory && true}
+                        onChange={checked => changeSelectCategory(tag)}
+                        style={{
+                          margin: "4px 12px 6px 0",
+                          width: "max-content"
+                        }}
+                      >
+                        <Popover
+                          key={tag}
+                          placement="bottom"
+                          content={tagForPopover}
+                          trigger="click"
+                        >
+                          {tag}
+                        </Popover>
+                      </CheckableTag>
+
+                      <SubTest
+                        selected={
+                          tag === selectedCategory && tag !== "ALL"
+                            ? true
+                            : false
+                        }
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </Panel>
           </Collapse>
           {/* <span style={{fontSize: "12px", fontWeight: "400", color: "#333", letterSpacing: '1px'}}>
