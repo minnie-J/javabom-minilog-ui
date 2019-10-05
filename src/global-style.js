@@ -1,5 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import "antd/dist/antd.css";
+
+import "./assets/css/collapse.css";
+import "./assets/css/popover.css";
+import "./assets/css/tag.css";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -10,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400,500,700&display=swap');
     height: 100%;
     font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
   }
 

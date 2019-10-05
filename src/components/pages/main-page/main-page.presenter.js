@@ -14,7 +14,7 @@ const Container = styled.div`
 const HeaderArea = styled.nav`
   width: 100%;
   /* height: 8vmin; */
-  height: 120px;
+  height: 220px;
   
   display: flex;
   /* flex-direction: column; */
@@ -30,6 +30,8 @@ const ContentArea = styled.main`
 const ArticlesArea = styled.div`
   width: 100%;
 
+  height: 2000px;
+
   display: flex;
 `;
 
@@ -43,72 +45,6 @@ const MainPage = () => {
       <ContentArea role="main">
         <ArticlesArea>
           ArticleArea
-          {/* test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-          ArticleArea<br/>
-          test<br/>
-           */}
           </ArticlesArea>
       </ContentArea>
       </section>

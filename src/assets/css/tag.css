@@ -1,0 +1,13 @@
+.ant-tag-checkable-checked {
+  background-color: #1890ff;
+  background-color: #71bdb9 !important;
+}
+
+.ant-tag-checkable:not(.ant-tag-checkable-checked):hover {
+  color: #71bdb9 !important;
+}
+
+.ant-tag-checkable:active {
+  /* background-color: #096dd9; */
+  background-color: #539995 !important;
+}
