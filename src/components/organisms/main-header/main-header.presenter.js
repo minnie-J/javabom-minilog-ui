@@ -37,6 +37,7 @@ const HeaderArea = styled.div`
 
   /* padding: 26px 20px; */
   padding: ${props => (props.scroll < 20 ? "26px 20px" : "10px 20px")};
+  /* padding: ${props => (props.scroll === 0 ? "26px 20px" : "10px 20px")}; */
 `;
 
 const Logo = styled.div`
@@ -72,13 +73,24 @@ const CategoryArea = styled.div`
   align-items: center;
 `;
 
-const SubTest = styled.div`
+const CategoryListArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const CategoryItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SubCategoryArea = styled.div`
   display: ${props => (props.selected ? "block" : "none")};
   // height 서브 카테고리 있을 때만 높이 46px로 조정
   height: 46px;
 `;
 
-const tempCat = [
+const TEMP_CAT = [
   "ALL",
   "영화",
   "맛집",
@@ -102,13 +114,13 @@ const tempCat = [
   "않겠다"
 ];
 
-const tagForPopover = (
+const TEMP_SUB_CAT = (
   <div>
     <CheckableTag
       checked={true}
       style={{
         margin: "0 4px",
-        width: "max-content",
+        width: "max-content"
       }}
     >
       ALL
@@ -149,16 +161,28 @@ const MainHeader = () => {
   const [activePanel, changeActivePanel] = useState("category");
 
   useEffect(() => {
+    window.onbeforeunload = () => {
+      document.documentElement.scrollTop = 0;
+    };
     window.addEventListener("scroll", onScroll);
   }, []);
 
   const onScroll = () => {
     const scrollTop = ("scroll", document.documentElement.scrollTop);
+    changeActivePanel("");
     changeScrollTop(scrollTop);
-    scrollTop > 20 ? changeActivePanel("") : changeActivePanel("category");
+    if (scrollTop === 0) {
+      setTimeout(() => {
+        changeActivePanel("category");
+      }, 200);
+    } else {
+      setTimeout(() => {
+        changeActivePanel("");
+      }, 200);
+    }
   };
 
-  const category = (
+  const CATEGORY_HEADER = (
     <div>
       <span
         style={{
@@ -171,12 +195,11 @@ const MainHeader = () => {
         Category
       </span>
       &emsp;
-      {!activePanel && selectedCategory !== "ALL" && (
+      {!activePanel && (
         <span
           style={{
             fontSize: "12px",
             color: "#71bdb9",
-            display: "inline-block",
             // collapse 접었을 때 적용돼야 되는데 transition 지금 안먹음.. span에 styled-component 걸고
             // activePanel, selectedCategory를 props로 전달해야 적용될듯.
             transition: "all .2s ease"
@@ -210,19 +233,16 @@ const MainHeader = () => {
               activePanel ? changeActivePanel("") : changeActivePanel(key);
             }}
           >
-            <Panel header={category} style={{ border: 0 }} key="category">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap"
-                }}
-              >
-                {tempCat.map(tag => {
+            <Panel
+              header={CATEGORY_HEADER}
+              style={{ border: 0 }}
+              key="category"
+            >
+              <CategoryListArea>
+                {TEMP_CAT.map(tag => {
                   return (
-                    <div style={{ display: "flex", flexDirection: "column" }}>
+                    <CategoryItem key={tag}>
                       <CheckableTag
-                        key={tag}
                         checked={tag === selectedCategory && true}
                         onChange={checked => changeSelectCategory(tag)}
                         style={{
@@ -233,24 +253,33 @@ const MainHeader = () => {
                         <Popover
                           key={tag}
                           placement="bottom"
-                          content={tagForPopover}
+                          content={TEMP_SUB_CAT}
                           trigger="click"
+                          visible={
+                            tag === "Develop" &&
+                            tag === selectedCategory &&
+                            tag !== "ALL" &&
+                            activePanel
+                              ? true
+                              : false
+                          }
                         >
                           {tag}
                         </Popover>
                       </CheckableTag>
-
-                      <SubTest
-                        selected={
-                          tag === selectedCategory && tag !== "ALL"
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
+                      {tag === "Develop" && (
+                        <SubCategoryArea
+                          selected={
+                            tag === selectedCategory && tag !== "ALL"
+                              ? true
+                              : false
+                          }
+                        />
+                      )}
+                    </CategoryItem>
                   );
                 })}
-              </div>
+              </CategoryListArea>
             </Panel>
           </Collapse>
           {/* <span style={{fontSize: "12px", fontWeight: "400", color: "#333", letterSpacing: '1px'}}>
