@@ -20,7 +20,7 @@ const HeaderWrapper = styled.div`
   width: 100%;
 
   background: #fff;
-  border-bottom: ${props => props.scroll < 20 && "1px solid #f2f2f2"};
+  border-bottom: ${props => props.isActive && "1px solid #f2f2f2"};
 `;
 
 const HeaderArea = styled.div`
@@ -35,9 +35,7 @@ const HeaderArea = styled.div`
 
   transition: padding 0.2s ease-in-out;
 
-  /* padding: 26px 20px; */
-  padding: ${props => (props.scroll < 20 ? "26px 20px" : "10px 20px")};
-  /* padding: ${props => (props.scroll === 0 ? "26px 20px" : "10px 20px")}; */
+  padding: ${props => (props.headerState ? "26px 20px" : "10px 20px")};
 `;
 
 const Logo = styled.div`
@@ -57,6 +55,8 @@ const CategoryWrapper = styled.div`
 
   background: #fff;
   border-bottom: 1px solid #f2f2f2;
+
+  user-select: none;
 `;
 
 const CategoryArea = styled.div`
@@ -84,11 +84,7 @@ const CategoryItem = styled.div`
   flex-direction: column;
 `;
 
-const SubCategoryArea = styled.div`
-  display: ${props => (props.selected ? "block" : "none")};
-  // height 서브 카테고리 있을 때만 높이 46px로 조정
-  height: 46px;
-`;
+const SubCategoryArea = styled.div``;
 
 const TEMP_CAT = [
   "ALL",
@@ -156,30 +152,47 @@ const TEMP_SUB_CAT = (
 );
 
 const MainHeader = () => {
-  const [scrollTop, changeScrollTop] = useState(0);
   const [selectedCategory, changeSelectCategory] = useState("ALL");
   const [activePanel, changeActivePanel] = useState("category");
+
+  const [popoverHeight, setPopoverHeight] = useState(0);
+  const [windowSize, setWindowSize] = useState(0);
+  const [headerState, changeHeaderState] = useState(true);
 
   useEffect(() => {
     window.onbeforeunload = () => {
       document.documentElement.scrollTop = 0;
     };
+    setWindowSize(window.innerWidth);
+    window.innerWidth < 600 && changeHeaderState(false);
     window.addEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    getPopoverHeight(selectedCategory);
+  }, [selectedCategory]);
+
   const onScroll = () => {
-    const scrollTop = ("scroll", document.documentElement.scrollTop);
+    const currentScrollTop = ("scroll", document.documentElement.scrollTop);
     changeActivePanel("");
-    changeScrollTop(scrollTop);
-    if (scrollTop === 0) {
+    if (currentScrollTop === 0) {
+      window.innerWidth > 600 && changeHeaderState(true);
       setTimeout(() => {
         changeActivePanel("category");
-      }, 200);
+      }, window.innerWidth > 600 && 200);
     } else {
-      setTimeout(() => {
-        changeActivePanel("");
-      }, 200);
+      changeActivePanel("");
+      changeHeaderState(false);
     }
+  };
+
+  const getPopoverHeight = tag => {
+    const collection = document.getElementsByClassName(tag);
+    const array = Array.from(collection);
+    array.map(el => {
+      console.log("el ", el.clientHeight);
+      setPopoverHeight(el.clientHeight);
+    });
   };
 
   const CATEGORY_HEADER = (
@@ -199,10 +212,7 @@ const MainHeader = () => {
         <span
           style={{
             fontSize: "12px",
-            color: "#71bdb9",
-            // collapse 접었을 때 적용돼야 되는데 transition 지금 안먹음.. span에 styled-component 걸고
-            // activePanel, selectedCategory를 props로 전달해야 적용될듯.
-            transition: "all .2s ease"
+            color: "#71bdb9"
           }}
         >
           {selectedCategory}
@@ -213,8 +223,8 @@ const MainHeader = () => {
 
   return (
     <Container>
-      <HeaderWrapper scroll={scrollTop}>
-        <HeaderArea scroll={scrollTop}>
+      <HeaderWrapper isActive={activePanel ? true : false}>
+        <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
           <Icon type="smile" />
         </HeaderArea>
@@ -230,7 +240,15 @@ const MainHeader = () => {
             style={{ width: "100%" }}
             activeKey={activePanel}
             onChange={key => {
-              activePanel ? changeActivePanel("") : changeActivePanel(key);
+              if (activePanel) {
+                changeActivePanel("");
+                changeHeaderState(false);
+              } else {
+                windowSize > 600 && changeHeaderState(true);
+                setTimeout(() => {
+                  changeActivePanel("category");
+                }, windowSize > 600 && 400);
+              }
             }}
           >
             <Panel
@@ -251,29 +269,45 @@ const MainHeader = () => {
                         }}
                       >
                         <Popover
-                          key={tag}
+                          // key={tag}
                           placement="bottom"
-                          content={TEMP_SUB_CAT}
-                          trigger="click"
-                          visible={
+                          content={
                             tag === "Develop" &&
                             tag === selectedCategory &&
                             tag !== "ALL" &&
                             activePanel
-                              ? true
-                              : false
+                              ? TEMP_SUB_CAT
+                              : ""
                           }
+                          trigger="click"
+                          visible={true}
+                          overlayStyle={{
+                            userSelect: "none",
+                            visibility:
+                              tag === "Develop" &&
+                              tag === selectedCategory &&
+                              tag !== "ALL" &&
+                              activePanel
+                                ? "visible"
+                                : "hidden",
+                            transition: "visibility 0.2s ease-in-out",
+                            // transitionDelay: "0.1s",
+                            position: "fixed"
+                          }}
+                          overlayClassName={tag}
                         >
                           {tag}
                         </Popover>
                       </CheckableTag>
                       {tag === "Develop" && (
                         <SubCategoryArea
-                          selected={
-                            tag === selectedCategory && tag !== "ALL"
-                              ? true
-                              : false
-                          }
+                          style={{
+                            height:
+                              tag === selectedCategory && tag !== "ALL"
+                                ? `${popoverHeight}px`
+                                : `0px`,
+                            transition: "height 0.3s ease-out"
+                          }}
                         />
                       )}
                     </CategoryItem>
@@ -282,9 +316,6 @@ const MainHeader = () => {
               </CategoryListArea>
             </Panel>
           </Collapse>
-          {/* <span style={{fontSize: "12px", fontWeight: "400", color: "#333", letterSpacing: '1px'}}>
-            Category
-          </span> */}
         </CategoryArea>
       </CategoryWrapper>
     </Container>
