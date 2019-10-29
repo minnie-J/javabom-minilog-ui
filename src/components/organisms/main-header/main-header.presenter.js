@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
+
 import { Icon, Collapse, Tag, Popover } from "antd";
 
 const { Panel } = Collapse;
@@ -20,7 +21,7 @@ const HeaderWrapper = styled.div`
   width: 100%;
 
   background: #fff;
-  border-bottom: ${props => props.scroll < 20 && "1px solid #f2f2f2"};
+  border-bottom: ${props => props.isActive && "1px solid #f2f2f2"};
 `;
 
 const HeaderArea = styled.div`
@@ -35,8 +36,7 @@ const HeaderArea = styled.div`
 
   transition: padding 0.2s ease-in-out;
 
-  /* padding: 26px 20px; */
-  padding: ${props => (props.scroll < 20 ? "26px 20px" : "10px 20px")};
+  padding: ${props => (props.headerState ? "26px 20px" : "10px 20px")};
 `;
 
 const Logo = styled.div`
@@ -56,6 +56,8 @@ const CategoryWrapper = styled.div`
 
   background: #fff;
   border-bottom: 1px solid #f2f2f2;
+
+  user-select: none;
 `;
 
 const CategoryArea = styled.div`
@@ -72,126 +74,135 @@ const CategoryArea = styled.div`
   align-items: center;
 `;
 
-const SubTest = styled.div`
-  display: ${props => (props.selected ? "block" : "none")};
-  // height 서브 카테고리 있을 때만 높이 46px로 조정
-  height: 46px;
+const CategoryListArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
-const tempCat = [
-  "ALL",
-  "영화",
-  "맛집",
-  "여행",
-  "책",
-  "Develop",
-  "일상",
-  "Blu-ray",
-  "갖고싶다",
-  "꿀팁",
-  "드라마",
-  "예능",
-  "아무거나",
-  "또뭐없나",
-  "카테고리늘리기",
-  "힘드네",
-  "생각보다",
-  "이렇게",
-  "카테고리리스트가",
-  "많아지지는",
-  "않겠다"
+const CategoryItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SubCategoryArea = styled.div`
+  height: ${props => props.height};
+
+  /* transition: height 0.3s ease-out; */
+`;
+
+const CategoryHeaderLabel = styled.span`
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+`;
+
+const SelectedCategory = styled.span`
+  font-size: 12px;
+  color: #71bdb9;
+`;
+
+const TEMP_CAT = [
+  { name: "ALL", id: 0 },
+  { name: "영화", id: 1 },
+  { name: "맛집", id: 2 },
+  { name: "여행", id: 3 },
+  { name: "책", id: 4 },
+  { name: "Develop", id: 5 },
+  { name: "일상", id: 6 },
+  { name: "Blu-ray", id: 7 },
+  { name: "갖고싶다", id: 8 },
+  { name: "꿀팁", id: 9 },
+  { name: "드라마", id: 10 },
+  { name: "예능", id: 11 },
+  { name: "아무거나", id: 12 },
+  { name: "또뭐없나", id: 13 },
+  { name: "카테고리늘리기", id: 14 },
+  { name: "힘드네", id: 15 },
+  { name: "생각보다", id: 16 },
+  { name: "이렇게", id: 17 },
+  { name: "카테고리리스트가", id: 18 },
+  { name: "많아지지는", id: 19 },
+  { name: "않겠다", id: 20 }
 ];
 
-const tagForPopover = (
-  <div>
-    <CheckableTag
-      checked={true}
-      style={{
-        margin: "0 4px",
-        width: "max-content",
-      }}
-    >
-      ALL
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      Spring
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      React
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      Etc
-    </CheckableTag>
-  </div>
-);
+const TEMP_SUB_CAT = {
+  5: ["ALL", "React", "Spring"],
+  1: [
+    "ALL",
+    "인생영화",
+    "평작",
+    "최악",
+    "Blu-lay Collection",
+    "카테고리늘리기",
+    "테스트",
+    "멀티플",
+    "선택이",
+    "필요하네",
+    "2차카테고리는"
+  ],
+  20: ["ALL", "test", "etc"]
+};
 
 const MainHeader = () => {
-  const [scrollTop, changeScrollTop] = useState(0);
   const [selectedCategory, changeSelectCategory] = useState("ALL");
   const [activePanel, changeActivePanel] = useState("category");
+  const [currentSubcat, changeCurrentSubcat] = useState("ALL");
+
+  const [popoverHeight, setPopoverHeight] = useState(0);
+  const [windowSize, setWindowSize] = useState(0);
+  const [headerState, changeHeaderState] = useState(true);
 
   useEffect(() => {
+    window.onbeforeunload = () => {
+      document.documentElement.scrollTop = 0;
+    };
+    setWindowSize(window.innerWidth);
+    window.innerWidth < 600 && changeHeaderState(false);
     window.addEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const collection = document.getElementsByClassName(selectedCategory);
+    const array = Array.from(collection);
+    array.map(el => {
+      // console.log("el ", el);
+      setPopoverHeight(el.clientHeight);
+    });
+    changeCurrentSubcat("ALL");
+  }, [selectedCategory]);
+
   const onScroll = () => {
-    const scrollTop = ("scroll", document.documentElement.scrollTop);
-    changeScrollTop(scrollTop);
-    scrollTop > 20 ? changeActivePanel("") : changeActivePanel("category");
+    const currentScrollTop = ("scroll", document.documentElement.scrollTop);
+    changeActivePanel("");
+    if (currentScrollTop === 0) {
+      window.innerWidth > 600 && changeHeaderState(true);
+      setTimeout(() => {
+        changeActivePanel("category");
+      }, window.innerWidth > 600 && 200);
+    } else {
+      changeActivePanel("");
+      changeHeaderState(false);
+    }
   };
 
-  const category = (
-    <div>
-      <span
-        style={{
-          fontSize: "12px",
-          fontWeight: "400",
-          color: "#666",
-          letterSpacing: "1px"
-        }}
-      >
-        Category
-      </span>
+  const CategoryHeader = (
+    <Fragment>
+      <CategoryHeaderLabel>Category</CategoryHeaderLabel>
       &emsp;
-      {!activePanel && selectedCategory !== "ALL" && (
-        <span
-          style={{
-            fontSize: "12px",
-            color: "#71bdb9",
-            display: "inline-block",
-            // collapse 접었을 때 적용돼야 되는데 transition 지금 안먹음.. span에 styled-component 걸고
-            // activePanel, selectedCategory를 props로 전달해야 적용될듯.
-            transition: "all .2s ease"
-          }}
-        >
-          {selectedCategory}
-        </span>
+      {!activePanel && (
+        <SelectedCategory>
+          {currentSubcat !== "ALL" && currentSubcat}&emsp;{selectedCategory}
+        </SelectedCategory>
       )}
-    </div>
+    </Fragment>
   );
 
   return (
     <Container>
-      <HeaderWrapper scroll={scrollTop}>
-        <HeaderArea scroll={scrollTop}>
+      <HeaderWrapper isActive={activePanel ? true : false}>
+        <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
           <Icon type="smile" />
         </HeaderArea>
@@ -207,55 +218,107 @@ const MainHeader = () => {
             style={{ width: "100%" }}
             activeKey={activePanel}
             onChange={key => {
-              activePanel ? changeActivePanel("") : changeActivePanel(key);
+              if (activePanel) {
+                changeActivePanel("");
+                changeHeaderState(false);
+              } else {
+                windowSize > 600 && changeHeaderState(true);
+                setTimeout(() => {
+                  changeActivePanel("category");
+                }, windowSize > 600 && 400);
+              }
             }}
           >
-            <Panel header={category} style={{ border: 0 }} key="category">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap"
-                }}
-              >
-                {tempCat.map(tag => {
+            <Panel header={CategoryHeader} style={{ border: 0 }} key="category">
+              <CategoryListArea id="category-area">
+                {TEMP_CAT.map(cat => {
                   return (
-                    <div style={{ display: "flex", flexDirection: "column" }}>
+                    <CategoryItem key={cat.id}>
                       <CheckableTag
-                        key={tag}
-                        checked={tag === selectedCategory && true}
-                        onChange={checked => changeSelectCategory(tag)}
+                        checked={cat.name === selectedCategory && true}
+                        onChange={checked => changeSelectCategory(cat.name)}
                         style={{
                           margin: "4px 12px 6px 0",
                           width: "max-content"
                         }}
                       >
                         <Popover
-                          key={tag}
+                          // key={tag}
+                          getPopupContainer={() =>
+                            document.getElementById("category-area")
+                          }
                           placement="bottom"
-                          content={tagForPopover}
+                          arrowPointAtCenter
+                          content={
+                            TEMP_SUB_CAT[cat.id]
+                              ? TEMP_SUB_CAT[cat.id].map(subcat => {
+                                  return (
+                                    <CheckableTag
+                                      key={subcat}
+                                      checked={
+                                        currentSubcat === subcat ? true : false
+                                      }
+                                      onChange={checked =>
+                                        changeCurrentSubcat(subcat)
+                                      }
+                                      style={{
+                                        margin: "0 4px 2px 4px",
+                                        width: "max-content"
+                                      }}
+                                    >
+                                      {subcat}
+                                    </CheckableTag>
+                                  );
+                                })
+                              : ""
+                          }
                           trigger="click"
+                          visible={true}
+                          overlayStyle={{
+                            maxWidth:
+                              windowSize > 1136
+                                ? "400px"
+                                : windowSize > 500
+                                ? `${windowSize / 4}px`
+                                : `${(windowSize / 5) * 3}px`,
+                            userSelect: "none",
+                            visibility:
+                              TEMP_SUB_CAT[cat.id] &&
+                              cat.name === selectedCategory &&
+                              activePanel
+                                ? "visible"
+                                : "hidden",
+                            opacity:
+                              TEMP_SUB_CAT[cat.id] &&
+                              cat.name === selectedCategory &&
+                              activePanel
+                                ? "1"
+                                : "0",
+                            // transition: "visibility 0.1s ease-in-out",
+                            transition: "opacity 0.3s, visibility 0.2s ",
+                            // transitionDelay: "0.1s",
+                            position: "fixed"
+                          }}
+                          overlayClassName={cat.name}
                         >
-                          {tag}
+                          {cat.name}
                         </Popover>
                       </CheckableTag>
-
-                      <SubTest
-                        selected={
-                          tag === selectedCategory && tag !== "ALL"
-                            ? true
-                            : false
-                        }
-                      />
-                    </div>
+                      {TEMP_SUB_CAT[cat.id] && (
+                        <SubCategoryArea
+                          height={
+                            cat.name === selectedCategory
+                              ? `${popoverHeight}px`
+                              : `0px`
+                          }
+                        />
+                      )}
+                    </CategoryItem>
                   );
                 })}
-              </div>
+              </CategoryListArea>
             </Panel>
           </Collapse>
-          {/* <span style={{fontSize: "12px", fontWeight: "400", color: "#333", letterSpacing: '1px'}}>
-            Category
-          </span> */}
         </CategoryArea>
       </CategoryWrapper>
     </Container>
