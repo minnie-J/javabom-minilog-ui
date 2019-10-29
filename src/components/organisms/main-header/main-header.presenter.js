@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
+
 import { Icon, Collapse, Tag, Popover } from "antd";
 
 const { Panel } = Collapse;
@@ -84,76 +85,70 @@ const CategoryItem = styled.div`
   flex-direction: column;
 `;
 
-const SubCategoryArea = styled.div``;
+const SubCategoryArea = styled.div`
+  height: ${props => props.height};
+
+  /* transition: height 0.3s ease-out; */
+`;
+
+const CategoryHeaderLabel = styled.span`
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 1px;
+`;
+
+const SelectedCategory = styled.span`
+  font-size: 12px;
+  color: #71bdb9;
+`;
 
 const TEMP_CAT = [
-  "ALL",
-  "영화",
-  "맛집",
-  "여행",
-  "책",
-  "Develop",
-  "일상",
-  "Blu-ray",
-  "갖고싶다",
-  "꿀팁",
-  "드라마",
-  "예능",
-  "아무거나",
-  "또뭐없나",
-  "카테고리늘리기",
-  "힘드네",
-  "생각보다",
-  "이렇게",
-  "카테고리리스트가",
-  "많아지지는",
-  "않겠다"
+  { name: "ALL", id: 0 },
+  { name: "영화", id: 1 },
+  { name: "맛집", id: 2 },
+  { name: "여행", id: 3 },
+  { name: "책", id: 4 },
+  { name: "Develop", id: 5 },
+  { name: "일상", id: 6 },
+  { name: "Blu-ray", id: 7 },
+  { name: "갖고싶다", id: 8 },
+  { name: "꿀팁", id: 9 },
+  { name: "드라마", id: 10 },
+  { name: "예능", id: 11 },
+  { name: "아무거나", id: 12 },
+  { name: "또뭐없나", id: 13 },
+  { name: "카테고리늘리기", id: 14 },
+  { name: "힘드네", id: 15 },
+  { name: "생각보다", id: 16 },
+  { name: "이렇게", id: 17 },
+  { name: "카테고리리스트가", id: 18 },
+  { name: "많아지지는", id: 19 },
+  { name: "않겠다", id: 20 }
 ];
 
-const TEMP_SUB_CAT = (
-  <div>
-    <CheckableTag
-      checked={true}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      ALL
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      Spring
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      React
-    </CheckableTag>
-    <CheckableTag
-      checked={false}
-      style={{
-        margin: "0 4px",
-        width: "max-content"
-      }}
-    >
-      Etc
-    </CheckableTag>
-  </div>
-);
+const TEMP_SUB_CAT = {
+  5: ["ALL", "React", "Spring"],
+  1: [
+    "ALL",
+    "인생영화",
+    "평작",
+    "최악",
+    "Blu-lay Collection",
+    "카테고리늘리기",
+    "테스트",
+    "멀티플",
+    "선택이",
+    "필요하네",
+    "2차카테고리는"
+  ],
+  20: ["ALL", "test", "etc"]
+};
 
 const MainHeader = () => {
   const [selectedCategory, changeSelectCategory] = useState("ALL");
   const [activePanel, changeActivePanel] = useState("category");
+  const [currentSubcat, changeCurrentSubcat] = useState("ALL");
 
   const [popoverHeight, setPopoverHeight] = useState(0);
   const [windowSize, setWindowSize] = useState(0);
@@ -169,7 +164,13 @@ const MainHeader = () => {
   }, []);
 
   useEffect(() => {
-    getPopoverHeight(selectedCategory);
+    const collection = document.getElementsByClassName(selectedCategory);
+    const array = Array.from(collection);
+    array.map(el => {
+      // console.log("el ", el);
+      setPopoverHeight(el.clientHeight);
+    });
+    changeCurrentSubcat("ALL");
   }, [selectedCategory]);
 
   const onScroll = () => {
@@ -186,39 +187,16 @@ const MainHeader = () => {
     }
   };
 
-  const getPopoverHeight = tag => {
-    const collection = document.getElementsByClassName(tag);
-    const array = Array.from(collection);
-    array.map(el => {
-      console.log("el ", el.clientHeight);
-      setPopoverHeight(el.clientHeight);
-    });
-  };
-
-  const CATEGORY_HEADER = (
-    <div>
-      <span
-        style={{
-          fontSize: "12px",
-          fontWeight: "400",
-          color: "#666",
-          letterSpacing: "1px"
-        }}
-      >
-        Category
-      </span>
+  const CategoryHeader = (
+    <Fragment>
+      <CategoryHeaderLabel>Category</CategoryHeaderLabel>
       &emsp;
       {!activePanel && (
-        <span
-          style={{
-            fontSize: "12px",
-            color: "#71bdb9"
-          }}
-        >
-          {selectedCategory}
-        </span>
+        <SelectedCategory>
+          {currentSubcat !== "ALL" && currentSubcat}&emsp;{selectedCategory}
+        </SelectedCategory>
       )}
-    </div>
+    </Fragment>
   );
 
   return (
@@ -251,18 +229,14 @@ const MainHeader = () => {
               }
             }}
           >
-            <Panel
-              header={CATEGORY_HEADER}
-              style={{ border: 0 }}
-              key="category"
-            >
-              <CategoryListArea>
-                {TEMP_CAT.map(tag => {
+            <Panel header={CategoryHeader} style={{ border: 0 }} key="category">
+              <CategoryListArea id="category-area">
+                {TEMP_CAT.map(cat => {
                   return (
-                    <CategoryItem key={tag}>
+                    <CategoryItem key={cat.id}>
                       <CheckableTag
-                        checked={tag === selectedCategory && true}
-                        onChange={checked => changeSelectCategory(tag)}
+                        checked={cat.name === selectedCategory && true}
+                        onChange={checked => changeSelectCategory(cat.name)}
                         style={{
                           margin: "4px 12px 6px 0",
                           width: "max-content"
@@ -270,44 +244,73 @@ const MainHeader = () => {
                       >
                         <Popover
                           // key={tag}
+                          getPopupContainer={() =>
+                            document.getElementById("category-area")
+                          }
                           placement="bottom"
+                          arrowPointAtCenter
                           content={
-                            tag === "Develop" &&
-                            tag === selectedCategory &&
-                            tag !== "ALL" &&
-                            activePanel
-                              ? TEMP_SUB_CAT
+                            TEMP_SUB_CAT[cat.id]
+                              ? TEMP_SUB_CAT[cat.id].map(subcat => {
+                                  return (
+                                    <CheckableTag
+                                      key={subcat}
+                                      checked={
+                                        currentSubcat === subcat ? true : false
+                                      }
+                                      onChange={checked =>
+                                        changeCurrentSubcat(subcat)
+                                      }
+                                      style={{
+                                        margin: "0 4px 2px 4px",
+                                        width: "max-content"
+                                      }}
+                                    >
+                                      {subcat}
+                                    </CheckableTag>
+                                  );
+                                })
                               : ""
                           }
                           trigger="click"
                           visible={true}
                           overlayStyle={{
+                            maxWidth:
+                              windowSize > 1136
+                                ? "400px"
+                                : windowSize > 500
+                                ? `${windowSize / 4}px`
+                                : `${(windowSize / 5) * 3}px`,
                             userSelect: "none",
                             visibility:
-                              tag === "Develop" &&
-                              tag === selectedCategory &&
-                              tag !== "ALL" &&
+                              TEMP_SUB_CAT[cat.id] &&
+                              cat.name === selectedCategory &&
                               activePanel
                                 ? "visible"
                                 : "hidden",
-                            transition: "visibility 0.2s ease-in-out",
+                            opacity:
+                              TEMP_SUB_CAT[cat.id] &&
+                              cat.name === selectedCategory &&
+                              activePanel
+                                ? "1"
+                                : "0",
+                            // transition: "visibility 0.1s ease-in-out",
+                            transition: "opacity 0.3s, visibility 0.2s ",
                             // transitionDelay: "0.1s",
                             position: "fixed"
                           }}
-                          overlayClassName={tag}
+                          overlayClassName={cat.name}
                         >
-                          {tag}
+                          {cat.name}
                         </Popover>
                       </CheckableTag>
-                      {tag === "Develop" && (
+                      {TEMP_SUB_CAT[cat.id] && (
                         <SubCategoryArea
-                          style={{
-                            height:
-                              tag === selectedCategory && tag !== "ALL"
-                                ? `${popoverHeight}px`
-                                : `0px`,
-                            transition: "height 0.3s ease-out"
-                          }}
+                          height={
+                            cat.name === selectedCategory
+                              ? `${popoverHeight}px`
+                              : `0px`
+                          }
                         />
                       )}
                     </CategoryItem>
