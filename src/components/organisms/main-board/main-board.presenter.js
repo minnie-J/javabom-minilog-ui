@@ -35,7 +35,7 @@ const TopArea = styled.div`
 
   display: flex;
   align-items: flex-end;
-  padding: 0 10px 30px 10px;
+  padding: 0 4px 30px 4px;
 `;
 
 const ConfigArea = styled.div`
@@ -45,7 +45,7 @@ const ConfigArea = styled.div`
   height: 30px;
 
   /* margin: 0 10px; */
-  padding: 0 10px;
+  padding: 0 4px;
 
   /* border-bottom: 1px solid #f2f2f2; */
   box-sizing: border-box;
@@ -92,19 +92,22 @@ const MainBoard = () => {
       containerWidth: width,
       geometry: JustifiedLayout(Geometries, {
         containerWidth: width,
-        targetRowHeight: 240,
-        targetRowHeightTolerance: 0.28
+        targetRowHeight: window.innerWidth > 600 ? 220 : 140, // 기준 높이
+        // targetRowHeightTolerance: 0.28, // 기준 높이에서 허용 높이 범위
+        containerPadding: window.innerWidth > 600 ? 4 : 0, // 테두리 padding 값
+        boxSpacing: {
+          // item 사이 padding 값
+          horizontal:
+            window.innerWidth > 960 ? 20 : window.innerWidth > 500 ? 10 : 4,
+          vertical:
+            window.innerWidth > 960 ? 20 : window.innerWidth > 500 ? 10 : 4
+        }
       })
     });
-  }, [Geometries]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    // const width = window.innerWidth - 16; // padding
-
-    // setState({
-    //   containerWidth: width,
-    //   geometry: JustifiedLayout(Geometries, { containerWidth: width })
-    // });
     const onResize = () => {
       // const width = window.innerWidth - 16; // padding
       const { width } = listRef.current.getBoundingClientRect();
@@ -113,8 +116,14 @@ const MainBoard = () => {
         containerWidth: width,
         geometry: JustifiedLayout(Geometries, {
           containerWidth: width,
-          targetRowHeight: 240,
-          targetRowHeightTolerance: 0.28
+          targetRowHeight: window.innerWidth > 600 ? 220 : 140,
+          containerPadding: window.innerWidth > 600 ? 4 : 0,
+          boxSpacing: {
+            horizontal:
+              window.innerWidth > 960 ? 20 : window.innerWidth > 500 ? 10 : 4,
+            vertical:
+              window.innerWidth > 960 ? 20 : window.innerWidth > 500 ? 10 : 4
+          }
         })
       });
     };
