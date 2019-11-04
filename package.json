@@ -5,10 +5,10 @@
   "dependencies": {
     "antd": "^3.24.3",
     "core-js": "^3.2.1",
+    "justified-layout": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-justified-layout": "^0.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.0.1",
     "styled-components": "^4.4.0",
