@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.24.3",
     "core-js": "^3.2.1",
+    "justified-layout": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
