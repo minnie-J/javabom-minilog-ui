@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
 
-import MainHeader from '../../organisms/main-header/main-header'
+import MainHeader from "../../organisms/main-header/main-header";
+import MainBoard from "../../organisms/main-board/main-board";
 
 const Container = styled.div`
   width: 100%;
@@ -14,40 +15,36 @@ const Container = styled.div`
 const HeaderArea = styled.nav`
   width: 100%;
   /* height: 8vmin; */
-  height: 220px;
-  
+  /* height: 220px; */
+
   display: flex;
   /* flex-direction: column; */
+
+  z-index: 1000;
 `;
 
 const ContentArea = styled.main`
+  /* padding-top: 140px; */
+  margin-top: 140px;
   width: 100%;
 
   display: flex;
   flex-direction: column;
-`;
 
-const ArticlesArea = styled.div`
-  width: 100%;
+  flex-grow: 1;
 
-  height: 2000px;
-
-  display: flex;
+  z-index: 2;
 `;
 
 const MainPage = () => {
   return (
     <Container>
-      <section>
       <HeaderArea>
-        <MainHeader/>
+        <MainHeader />
       </HeaderArea>
       <ContentArea role="main">
-        <ArticlesArea>
-          ArticleArea
-          </ArticlesArea>
+        <MainBoard />
       </ContentArea>
-      </section>
     </Container>
   );
 };
