@@ -20,7 +20,7 @@ const HeaderArea = styled.nav`
   display: flex;
   /* flex-direction: column; */
 
-  z-index: 1000;
+  z-index: 3;
 `;
 
 const ContentArea = styled.main`
