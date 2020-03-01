@@ -1,23 +1,25 @@
 
-.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
+/* Main Header */
+
+.header .ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
   padding: 12px 0 !important;
 }
 
-.ant-collapse-icon-position-right
+.header .ant-collapse-icon-position-right
   > .ant-collapse-item
   > .ant-collapse-header
   .ant-collapse-arrow {
   right: 2px !important;
 }
 
-.ant-collapse-borderless
+.header .ant-collapse-borderless
   > .ant-collapse-item
   > .ant-collapse-content
   > .ant-collapse-content-box {
   padding-top: 0 !important;
 }
 
-.ant-collapse-content > .ant-collapse-content-box {
+.header .ant-collapse-content > .ant-collapse-content-box {
   /* padding: 16px; */
   padding: 0 20px 10px 66px !important;
 }

@@ -211,6 +211,7 @@ const MainHeader = () => {
       <CategoryWrapper>
         <CategoryArea>
           <Collapse
+            className="header"
             bordered={false}
             expandIcon={({ isActive }) => (
               <Icon type="left" rotate={isActive ? -90 : 0} />
@@ -230,7 +231,12 @@ const MainHeader = () => {
               }
             }}
           >
-            <Panel header={CategoryHeader} style={{ border: 0 }} key="category">
+            <Panel
+              header={CategoryHeader}
+              style={{ border: 0 }}
+              key="category"
+              className="header"
+            >
               <CategoryListArea id="category-area">
                 {TEMP_CAT.map(cat => {
                   return (
