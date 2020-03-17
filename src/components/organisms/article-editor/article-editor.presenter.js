@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import ReactMde from "react-mde";
-import * as Showdown from "showdown";
-// import "react-mde/lib/styles/css/react-mde-all.css";
-import "../../../assets/css/react-mde.css";
+
+import "codemirror/lib/codemirror.css";
+import "tui-editor/dist/tui-editor.min.css";
+import "tui-editor/dist/tui-editor-contents.min.css";
+import { Editor } from "@toast-ui/react-editor";
 
 import PopupFull from "../../molecules/popup-full/popup-full";
 
@@ -45,15 +46,8 @@ const BottomArea = styled.div`
 `;
 
 const ArticleEditor = ({ onClickClose }) => {
-  const [value, setValue] = useState("Hello, World");
-  const [selectedTab, setSelectedTab] = useState("write");
-
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true
-  });
+  // const [value, setValue] = useState("Hello, World");
+  // const [selectedTab, setSelectedTab] = useState("write");
 
   return (
     <PopupFull title="New Article" onClickClose={onClickClose}>
@@ -73,14 +67,10 @@ const ArticleEditor = ({ onClickClose }) => {
           </InputArea>
         </TopArea>
         <CenterArea>
-          <ReactMde
-            value={value}
-            onChange={setValue}
-            selectedTab={selectedTab}
-            onTabChange={setSelectedTab}
-            generateMarkdownPreview={markdown =>
-              Promise.resolve(converter.makeHtml(markdown))
-            }
+          <Editor
+            initialValue="에디터 테스트"
+            initialEditType="markdown"
+            previewStyle="tab"
           />
         </CenterArea>
         <BottomArea>Save 버튼 영역</BottomArea>
