@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
+    "@toast-ui/react-editor": "^2.0.0-alpha",
     "antd": "^3.24.3",
     "core-js": "^3.2.1",
     "justified-layout": "^3.0.0",
@@ -14,7 +15,8 @@
     "react-scripts": "3.0.1",
     "showdown": "^1.9.1",
     "styled-components": "^4.4.0",
-    "styled-reset": "^4.0.1"
+    "styled-reset": "^4.0.1",
+    "tui-editor": "^1.4.10"
   },
   "scripts": {
     "start": "react-scripts start",
