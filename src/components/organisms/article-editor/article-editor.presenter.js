@@ -1,11 +1,17 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+// import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import "codemirror/lib/codemirror.css";
 import "tui-editor/dist/tui-editor.min.css";
 import "tui-editor/dist/tui-editor-contents.min.css";
+import "highlight.js/styles/github.css";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "../../../assets/css/colorpicker.css";
 import { Editor } from "@toast-ui/react-editor";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import hljs from "highlight.js";
 
 import PopupFull from "../../molecules/popup-full/popup-full";
 
@@ -36,9 +42,6 @@ const InputArea = styled.div`
 
 const CenterArea = styled.div`
   height: 100%;
-
-  display: flex;
-  flex-grow: 1;
 `;
 
 const BottomArea = styled.div`
@@ -46,9 +49,6 @@ const BottomArea = styled.div`
 `;
 
 const ArticleEditor = ({ onClickClose }) => {
-  // const [value, setValue] = useState("Hello, World");
-  // const [selectedTab, setSelectedTab] = useState("write");
-
   return (
     <PopupFull title="New Article" onClickClose={onClickClose}>
       <Container>
@@ -71,6 +71,9 @@ const ArticleEditor = ({ onClickClose }) => {
             initialValue="에디터 테스트"
             initialEditType="markdown"
             previewStyle="tab"
+            height="100%"
+            useCommandShortcut={true}
+            plugins={[colorSyntax, [codeSyntaxHighlight, { hljs }]]}
           />
         </CenterArea>
         <BottomArea>Save 버튼 영역</BottomArea>

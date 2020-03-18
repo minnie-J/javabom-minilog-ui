@@ -3,6 +3,8 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^1.0.0",
+    "@toast-ui/editor-plugin-color-syntax": "^1.0.0",
     "@toast-ui/react-editor": "^2.0.0-alpha",
     "antd": "^3.24.3",
     "core-js": "^3.2.1",

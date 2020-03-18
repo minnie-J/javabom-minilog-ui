@@ -1,0 +1,21 @@
+.tui-popup-color .tui-colorpicker-container div.tui-colorpicker-clearfix {
+  display: flex;
+  align-items: center;
+  flex-flow: row-reverse;
+  justify-content: flex-end;
+}
+
+.tui-popup-color .tui-colorpicker-container .tui-colorpicker-palette-preview {
+  margin-right: 6px;
+}
+
+.tui-popup-color .tui-colorpicker-container .tui-colorpicker-palette-hex {
+  padding: 3px 14px 3px 12px;
+  width: 80px;
+}
+
+.tui-editor-defaultUI-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
