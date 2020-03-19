@@ -167,10 +167,10 @@ const MainHeader = () => {
   useEffect(() => {
     const collection = document.getElementsByClassName(selectedCategory);
     const array = Array.from(collection);
-    array.map(el => {
+    array.map(el =>
       // console.log("el ", el);
-      setPopoverHeight(el.clientHeight);
-    });
+      setPopoverHeight(el.clientHeight)
+    );
     changeCurrentSubcat("ALL");
   }, [selectedCategory]);
 
