@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 
 import { Icon, Collapse, Tag, Popover } from "antd";
-import { openArticleEditor } from "../../organisms/article-editor/article-editor";
+import { openPopupArticleEditor } from "../../organisms/popup-article-editor/popup-article-editor";
 
 const { Panel } = Collapse;
 const { CheckableTag } = Tag;
@@ -205,7 +205,8 @@ const MainHeader = () => {
       <HeaderWrapper isActive={activePanel ? true : false}>
         <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
-          <Icon type="smile" onClick={() => openArticleEditor()} />
+          {/* <Icon type="smile" onClick={() => openArticleEditor()} /> */}
+          <Icon type="smile" onClick={openPopupArticleEditor} />
         </HeaderArea>
       </HeaderWrapper>
       <CategoryWrapper>
