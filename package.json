@@ -1,6 +1,6 @@
 {
-  "name": "react-starter-template",
-  "version": "1.0.2",
+  "name": "minilog-ui",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@toast-ui/editor-plugin-code-syntax-highlight": "^1.0.0",
