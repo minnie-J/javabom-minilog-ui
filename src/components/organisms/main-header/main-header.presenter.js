@@ -1,7 +1,8 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 
-import { Icon, Collapse, Tag, Popover } from "antd";
+import { Collapse, Tag, Popover } from "antd";
+import { Icon } from "@ant-design/compatible";
 import { openPopupArticleEditor } from "../../organisms/popup-article-editor/popup-article-editor";
 
 const { Panel } = Collapse;

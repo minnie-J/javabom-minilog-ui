@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon } from "antd";
+import { Icon } from "@ant-design/compatible";
 
 /**
  * toast-ui editor - 필수
@@ -57,9 +57,7 @@ const PopupArticleEditor = ({
             <PopupTitle title={title}>{title}</PopupTitle>
             {isOwner && <Icon type="edit" />}
             {isOwner && <Icon type="delete" />}
-            {isEditMode && (
-              <SaveIcon type="save" theme="filled" onClick={onSave} />
-            )}
+            {isEditMode && <SaveIcon onClick={onSave} />}
             <Icon
               type="plus"
               style={{ fontSize: "1.6rem", cursor: "pointer" }}

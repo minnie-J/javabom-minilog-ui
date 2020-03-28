@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Icon } from "antd";
+import { Icon } from "@ant-design/compatible";
 
 const HEADER_HEIGHT = "2.4rem";
 
@@ -96,11 +96,15 @@ const MetaContainer = styled.div`
   flex-grow: 1;
 `;
 
-const SaveIcon = styled(Icon)`
+const SaveIcon = styled(Icon).attrs(({ type, theme }) => ({
+  type: "save",
+  theme: "filled"
+}))`
   font-size: 1.2rem;
   margin-right: 0.8rem;
+  opacity: 0.7;
   &:hover {
-    color: #ff0000;
+    opacity: 1;
   }
 `;
 
