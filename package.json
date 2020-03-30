@@ -7,7 +7,7 @@
     "@toast-ui/editor-plugin-code-syntax-highlight": "^1.0.0",
     "@toast-ui/editor-plugin-color-syntax": "^1.0.0",
     "@toast-ui/react-editor": "^2.0.0",
-    "antd": "^4.0.4",
+    "antd": "^4.1.0",
     "core-js": "^3.6.4",
     "justified-layout": "^3.0.0",
     "prop-types": "^15.7.2",
