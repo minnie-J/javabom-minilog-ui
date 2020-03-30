@@ -207,7 +207,9 @@ const MainHeader = () => {
       <HeaderWrapper isActive={activePanel ? true : false}>
         <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
-          <SmileOutlined onClick={openPopupArticleEditor} />
+          <SmileOutlined
+            onClick={() => openPopupArticleEditor({ isOwner: true })}
+          />
         </HeaderArea>
       </HeaderWrapper>
       <CategoryWrapper>
