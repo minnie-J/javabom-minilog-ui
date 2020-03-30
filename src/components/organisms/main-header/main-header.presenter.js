@@ -2,7 +2,8 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 
 import { Collapse, Tag, Popover } from "antd";
-import { Icon } from "@ant-design/compatible";
+import { SmileOutlined, LeftOutlined } from "@ant-design/icons";
+
 import { openPopupArticleEditor } from "../../organisms/popup-article-editor/popup-article-editor";
 
 const { Panel } = Collapse;
@@ -206,8 +207,7 @@ const MainHeader = () => {
       <HeaderWrapper isActive={activePanel ? true : false}>
         <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
-          {/* <Icon type="smile" onClick={() => openArticleEditor()} /> */}
-          <Icon type="smile" onClick={openPopupArticleEditor} />
+          <SmileOutlined onClick={openPopupArticleEditor} />
         </HeaderArea>
       </HeaderWrapper>
       <CategoryWrapper>
@@ -216,7 +216,7 @@ const MainHeader = () => {
             className="header"
             bordered={false}
             expandIcon={({ isActive }) => (
-              <Icon type="left" rotate={isActive ? -90 : 0} />
+              <LeftOutlined rotate={isActive ? -90 : 0} />
             )}
             expandIconPosition="right"
             style={{ width: "100%" }}
