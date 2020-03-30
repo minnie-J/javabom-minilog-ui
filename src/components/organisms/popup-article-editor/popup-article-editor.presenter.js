@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import { EditFilled, DeleteFilled, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 /**
  * toast-ui editor - 필수
@@ -38,6 +38,8 @@ import {
   ArticleMetaArea,
   EditorArea,
   MetaContainer,
+  EditIcon,
+  DeleteIcon,
   SaveIcon
 } from "./popup-article-editor.style";
 
@@ -56,10 +58,10 @@ const PopupArticleEditor = ({
         <Wrapper>
           <HeaderArea>
             <PopupTitle title={title}>{title}</PopupTitle>
-            {isOwner && (
+            {!isEditMode && isOwner && (
               <Fragment>
-                <EditFilled />
-                <DeleteFilled />
+                <EditIcon />
+                <DeleteIcon />
               </Fragment>
             )}
             {isEditMode && <SaveIcon onClick={onSave} />}

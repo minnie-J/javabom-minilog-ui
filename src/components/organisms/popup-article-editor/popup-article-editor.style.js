@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SaveFilled } from "@ant-design/icons";
+import { EditFilled, DeleteFilled, SaveFilled } from "@ant-design/icons";
 
 const HEADER_HEIGHT = "2.4rem";
 
@@ -105,6 +105,24 @@ const SaveIcon = styled(SaveFilled)`
   }
 `;
 
+const EditIcon = styled(EditFilled)`
+  font-size: 1.2rem;
+  margin-right: 0.6rem;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const DeleteIcon = styled(DeleteFilled)`
+  font-size: 1.2rem;
+  margin-right: 0.8rem;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export {
   BackDrop,
   Container,
@@ -116,5 +134,7 @@ export {
   ArticleMetaArea,
   EditorArea,
   MetaContainer,
+  EditIcon,
+  DeleteIcon,
   SaveIcon
 };
