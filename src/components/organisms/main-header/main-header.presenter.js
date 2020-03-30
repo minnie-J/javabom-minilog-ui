@@ -1,8 +1,10 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 
-import { Icon, Collapse, Tag, Popover } from "antd";
-import { openArticleEditor } from "../../organisms/article-editor/article-editor";
+import { Collapse, Tag, Popover } from "antd";
+import { SmileOutlined, LeftOutlined } from "@ant-design/icons";
+
+import { openPopupArticleEditor } from "../../organisms/popup-article-editor/popup-article-editor";
 
 const { Panel } = Collapse;
 const { CheckableTag } = Tag;
@@ -167,10 +169,10 @@ const MainHeader = () => {
   useEffect(() => {
     const collection = document.getElementsByClassName(selectedCategory);
     const array = Array.from(collection);
-    array.map(el => {
+    array.map(el =>
       // console.log("el ", el);
-      setPopoverHeight(el.clientHeight);
-    });
+      setPopoverHeight(el.clientHeight)
+    );
     changeCurrentSubcat("ALL");
   }, [selectedCategory]);
 
@@ -205,7 +207,9 @@ const MainHeader = () => {
       <HeaderWrapper isActive={activePanel ? true : false}>
         <HeaderArea headerState={headerState}>
           <Logo>M I N I L O G</Logo>
-          <Icon type="smile" onClick={() => openArticleEditor()} />
+          <SmileOutlined
+            onClick={() => openPopupArticleEditor({ isOwner: true })}
+          />
         </HeaderArea>
       </HeaderWrapper>
       <CategoryWrapper>
@@ -214,7 +218,7 @@ const MainHeader = () => {
             className="header"
             bordered={false}
             expandIcon={({ isActive }) => (
-              <Icon type="left" rotate={isActive ? -90 : 0} />
+              <LeftOutlined rotate={isActive ? -90 : 0} />
             )}
             expandIconPosition="right"
             style={{ width: "100%" }}
