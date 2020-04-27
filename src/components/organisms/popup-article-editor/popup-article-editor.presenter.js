@@ -1,7 +1,13 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import { PlusOutlined } from "@ant-design/icons";
+import { Input, DatePicker, TimePicker } from "antd";
+import {
+  PlusOutlined,
+  TagsOutlined,
+  UserOutlined,
+  EnvironmentOutlined,
+} from "@ant-design/icons";
 
 /**
  * toast-ui editor - 필수
@@ -40,7 +46,7 @@ import {
   MetaContainer,
   EditIcon,
   DeleteIcon,
-  SaveIcon
+  SaveIcon,
 } from "./popup-article-editor.style";
 
 const PopupArticleEditor = ({
@@ -50,7 +56,7 @@ const PopupArticleEditor = ({
   title,
   content,
   onSave,
-  onClose
+  onClose,
 }) => {
   return (
     <BackDrop scrollTop={scrollTop}>
@@ -75,8 +81,30 @@ const PopupArticleEditor = ({
             {isEditMode ? (
               <EditorContainer>
                 <ArticleMetaArea>
-                  <MetaContainer>메타 왼쪽</MetaContainer>
-                  <MetaContainer>메타 오른쪽</MetaContainer>
+                  <MetaContainer>{/* 메타 왼쪽 */}</MetaContainer>
+                  <MetaContainer>
+                    <Input placeholder="제목" />
+                    <Input.TextArea
+                      placeholder="Description"
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                    />
+                    <div style={{ display: "inline-flex" }}>
+                      <TagsOutlined />
+                    </div>
+                    <div style={{ display: "inline-flex" }}>
+                      <UserOutlined />
+                    </div>
+                    <div style={{ display: "inline-flex" }}>
+                      <EnvironmentOutlined />
+                    </div>
+                    <div style={{ display: "inline-flex" }}>
+                      <DatePicker />
+                      <TimePicker use12Hours format="h:mm A" />
+                      <Input placeholder="ex. 매주 월요일" />
+                    </div>
+                    <DatePicker.RangePicker />
+                    <div>타임라인 추가(여행 카테고리일때 등등)</div>
+                  </MetaContainer>
                 </ArticleMetaArea>
                 <EditorArea>
                   <Editor
@@ -87,7 +115,7 @@ const PopupArticleEditor = ({
                     useCommandShortcut={true}
                     plugins={[
                       colorSyntax,
-                      [codeSyntaxHighlight, { highlight }]
+                      [codeSyntaxHighlight, { highlight }],
                     ]}
                   />
                 </EditorArea>
@@ -109,7 +137,7 @@ PopupArticleEditor.defaultProps = {
   title: null,
   content: null,
   onSave: () => {},
-  onClose: () => {}
+  onClose: () => {},
 };
 
 PopupArticleEditor.propTypes = {
@@ -119,7 +147,7 @@ PopupArticleEditor.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
   onSave: PropTypes.func,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default PopupArticleEditor;

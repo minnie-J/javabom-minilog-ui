@@ -7,7 +7,7 @@ const BackDrop = styled.div`
   position: absolute;
   display: flex;
 
-  top: ${props => `${props.scrollTop}px`};
+  top: ${(props) => `${props.scrollTop}px`};
   left: 0;
   right: 0;
   bottom: 0;
@@ -93,6 +93,7 @@ const EditorArea = styled.div`
 
 const MetaContainer = styled.div`
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
 `;
 
@@ -136,5 +137,5 @@ export {
   MetaContainer,
   EditIcon,
   DeleteIcon,
-  SaveIcon
+  SaveIcon,
 };

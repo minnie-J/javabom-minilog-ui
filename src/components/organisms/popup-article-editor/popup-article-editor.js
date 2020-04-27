@@ -44,16 +44,16 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
 PopupArticleEditor.defaultProps = {
   isOwner: false,
   payload: null,
-  onClose: () => {}
+  onClose: () => {},
 };
 
 PopupArticleEditor.propTypes = {
   isOwner: PropTypes.bool,
   payload: PropTypes.shape({
     articleId: PropTypes.number,
-    content: PropTypes.object
+    content: PropTypes.object,
   }),
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 PopupArticleEditor = withErrorBoundary(PopupArticleEditor);
@@ -74,7 +74,7 @@ export const openPopupArticleEditor = ({ isOwner, payload }) => {
     } catch {
       reject("팝업 불러오기 실패.");
     }
-  }).then(result => {
+  }).then((result) => {
     ReactDOM.unmountComponentAtNode(wrapper);
     wrapper.remove();
 
