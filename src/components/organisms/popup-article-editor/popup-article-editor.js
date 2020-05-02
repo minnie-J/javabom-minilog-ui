@@ -10,6 +10,9 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
   const [scrollTop, setScrollTop] = useState(0);
   const [isEditMode, changeIsEditMode] = useState(true);
 
+  const [categories, setCategories] = useState(["영화", "여행", "Develop"]);
+  const [newCategoryName, changeNewCategoryName] = useState("");
+
   const title = payload ? "Read Article" : "New Article";
   const content = payload ? "Content Area" : null;
   // content,
@@ -18,6 +21,14 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
   // onDelete,
   // onSave,
   // onClose
+
+  const onChangeNewCategoryName = (name) => changeNewCategoryName(name);
+
+  const onClickAddNewCategory = (event) => {
+    if (!newCategoryName) return;
+    setCategories([...categories, newCategoryName]);
+    changeNewCategoryName("");
+  };
 
   const onSave = () => changeIsEditMode(false);
 
@@ -33,8 +44,12 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
       scrollTop={scrollTop}
       isOwner={isOwner}
       isEditMode={isEditMode}
+      categories={categories}
       title={title}
       content={content}
+      newCategoryName={newCategoryName}
+      onChangeNewCategoryName={onChangeNewCategoryName}
+      onClickAddNewCategory={onClickAddNewCategory}
       onSave={onSave}
       onClose={onClose}
     />

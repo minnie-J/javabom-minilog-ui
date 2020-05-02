@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
-import { Input, DatePicker, TimePicker } from "antd";
+import { Input, DatePicker, TimePicker, Select, Divider } from "antd";
 import {
   PlusOutlined,
   TagsOutlined,
@@ -53,8 +53,12 @@ const PopupArticleEditor = ({
   scrollTop,
   isOwner,
   isEditMode,
+  categories,
   title,
   content,
+  newCategoryName,
+  onChangeNewCategoryName,
+  onClickAddNewCategory,
   onSave,
   onClose,
 }) => {
@@ -81,7 +85,48 @@ const PopupArticleEditor = ({
             {isEditMode ? (
               <EditorContainer>
                 <ArticleMetaArea>
-                  <MetaContainer>{/* 메타 왼쪽 */}</MetaContainer>
+                  <MetaContainer>
+                    <Select
+                      placeholder="Select Category"
+                      dropdownRender={(menu) => (
+                        <div>
+                          {menu}
+                          <Divider style={{ margin: "4px 0" }} />
+                          <div
+                            style={{
+                              display: "flex",
+                              flexWrap: "nowrap",
+                              padding: 8,
+                            }}
+                          >
+                            <Input
+                              style={{ flex: "auto" }}
+                              value={newCategoryName}
+                              onChange={(event) =>
+                                onChangeNewCategoryName(event.target.value)
+                              }
+                            />
+                            <div
+                              style={{
+                                cursor: "pointer",
+                                whiteSpace: "nowrap",
+                              }}
+                              onClick={onClickAddNewCategory}
+                            >
+                              + 카테고리추가
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    >
+                      {categories &&
+                        categories.map((category) => (
+                          <Select.Option key={category}>
+                            {category}
+                          </Select.Option>
+                        ))}
+                    </Select>
+                  </MetaContainer>
                   <MetaContainer>
                     <Input placeholder="제목" />
                     <Input.TextArea
