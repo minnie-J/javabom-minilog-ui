@@ -13,6 +13,15 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
   const [categories, setCategories] = useState(["영화", "여행", "Develop"]);
   const [newCategoryName, changeNewCategoryName] = useState("");
 
+  const [subCategories, setSubCategories] = useState([
+    "test1",
+    "test2",
+    "test3",
+  ]);
+
+  const [thisCategory, changeThisCategory] = useState("");
+  const [thisSubCats, changeThisSubCats] = useState([]);
+
   const title = payload ? "Read Article" : "New Article";
   const content = payload ? "Content Area" : null;
   // content,
@@ -30,6 +39,10 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
     changeNewCategoryName("");
   };
 
+  const onSelectCategory = (name) => changeThisCategory(name);
+
+  const onChangeNewSubCatName = (cats) => changeThisSubCats(cats);
+
   const onSave = () => changeIsEditMode(false);
 
   useEffect(() => {
@@ -45,11 +58,14 @@ let PopupArticleEditor = ({ isOwner, payload, onClose }) => {
       isOwner={isOwner}
       isEditMode={isEditMode}
       categories={categories}
+      subCategories={subCategories}
       title={title}
       content={content}
       newCategoryName={newCategoryName}
       onChangeNewCategoryName={onChangeNewCategoryName}
       onClickAddNewCategory={onClickAddNewCategory}
+      onSelectCategory={onSelectCategory}
+      onChangeNewSubCatName={onChangeNewSubCatName}
       onSave={onSave}
       onClose={onClose}
     />

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import PropTypes from "prop-types";
 
 import { Input, DatePicker, TimePicker, Select, Divider } from "antd";
@@ -49,19 +49,32 @@ import {
   SaveIcon,
 } from "./popup-article-editor.style";
 
+const TEST = {
+  value:
+    '#### 테스트 * `aaa`: 테스트 중 ``` javascript const test = () => { consol.log("aaa")}```<br>테스트 중입니다. <br>* aaaa* ggggg',
+};
+
 const PopupArticleEditor = ({
   scrollTop,
   isOwner,
   isEditMode,
   categories,
+  subCategories,
   title,
   content,
   newCategoryName,
   onChangeNewCategoryName,
   onClickAddNewCategory,
+  onSelectCategory,
+  onChangeNewSubCatName,
   onSave,
   onClose,
 }) => {
+  const editorRef = useRef(null);
+
+  // Editor.on('change', )
+  // console.log("???: ", editorRef.current.getValue());
+
   return (
     <BackDrop scrollTop={scrollTop}>
       <Container>
@@ -86,6 +99,7 @@ const PopupArticleEditor = ({
               <EditorContainer>
                 <ArticleMetaArea>
                   <MetaContainer>
+                    {/* 카테고리 선택 */}
                     <Select
                       placeholder="Select Category"
                       dropdownRender={(menu) => (
@@ -118,6 +132,7 @@ const PopupArticleEditor = ({
                           </div>
                         </div>
                       )}
+                      onChange={onSelectCategory}
                     >
                       {categories &&
                         categories.map((category) => (
@@ -126,27 +141,49 @@ const PopupArticleEditor = ({
                           </Select.Option>
                         ))}
                     </Select>
+                    {/* 2차 카테고리 선택 */}
+                    <Select
+                      mode="tags"
+                      tokenSeparators={[", "]}
+                      onChange={onChangeNewSubCatName}
+                    >
+                      {subCategories &&
+                        subCategories.map((category) => (
+                          <Select.Option key={category}>
+                            {category}
+                          </Select.Option>
+                        ))}
+                    </Select>
                   </MetaContainer>
                   <MetaContainer>
+                    {/* 제목 */}
                     <Input placeholder="제목" />
+                    {/* 설명 */}
                     <Input.TextArea
                       placeholder="Description"
                       autoSize={{ minRows: 2, maxRows: 6 }}
                     />
+                    {/* 태그 */}
                     <div style={{ display: "inline-flex" }}>
                       <TagsOutlined />
                     </div>
+                    {/* 함께한 사람 */}
                     <div style={{ display: "inline-flex" }}>
                       <UserOutlined />
                     </div>
+                    {/* 장소 */}
                     <div style={{ display: "inline-flex" }}>
                       <EnvironmentOutlined />
                     </div>
                     <div style={{ display: "inline-flex" }}>
+                      {/* 날짜 선택 */}
                       <DatePicker />
+                      {/* 시간 선택 */}
                       <TimePicker use12Hours format="h:mm A" />
+                      {/* 시간 관련 부가 사항 */}
                       <Input placeholder="ex. 매주 월요일" />
                     </div>
+                    {/* 기간 */}
                     <DatePicker.RangePicker />
                     <div>타임라인 추가(여행 카테고리일때 등등)</div>
                   </MetaContainer>
@@ -162,6 +199,13 @@ const PopupArticleEditor = ({
                       colorSyntax,
                       [codeSyntaxHighlight, { highlight }],
                     ]}
+                    ref={editorRef}
+                    onChange={() =>
+                      console.log(
+                        "???: ",
+                        editorRef.current.getInstance().getMarkdown()
+                      )
+                    }
                   />
                 </EditorArea>
               </EditorContainer>
